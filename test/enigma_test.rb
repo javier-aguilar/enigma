@@ -28,4 +28,13 @@ class EnigmaTest < Minitest::Test
     assert (0..99).include?(key[:D].to_i)
   end
 
+  def test_it_can_generate_offsets
+    offset = @enigma.generate_offsets("040895")
+
+    assert (0..9).include?(offset[:A].to_i)
+    assert (0..9).include?(offset[:B].to_i)
+    assert (0..9).include?(offset[:C].to_i)
+    assert (0..9).include?(offset[:D].to_i)
+  end
+
 end

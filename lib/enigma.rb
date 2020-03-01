@@ -16,4 +16,15 @@ class Enigma
     }
   end
 
+  def generate_offsets(date)
+    squared_date = (date.to_i * date.to_i)
+    offsets = squared_date.to_s.slice(-4, 4)
+    {
+      A: offsets[0],
+      B: offsets[1],
+      C: offsets[2],
+      D: offsets[3]
+    }
+  end
+
 end
