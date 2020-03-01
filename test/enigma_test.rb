@@ -29,6 +29,7 @@ class EnigmaTest < Minitest::Test
     assert (0..99).include?(key1[:D].to_i)
 
     key2 = @enigma.generate_keys("02715")
+
     assert_equal "02", key2[:A]
     assert_equal "27", key2[:B]
     assert_equal "71", key2[:C]
@@ -36,12 +37,20 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_generate_offsets
-    offset = @enigma.generate_offsets("040895")
+    current_date = DateTime.now.strftime "%d%m%y"
+    offset1 = @enigma.generate_offsets(current_date)
 
-    assert (0..9).include?(offset[:A].to_i)
-    assert (0..9).include?(offset[:B].to_i)
-    assert (0..9).include?(offset[:C].to_i)
-    assert (0..9).include?(offset[:D].to_i)
+    assert (0..9).include?(offset1[:A].to_i)
+    assert (0..9).include?(offset1[:B].to_i)
+    assert (0..9).include?(offset1[:C].to_i)
+    assert (0..9).include?(offset1[:D].to_i)
+
+    offset2 = @enigma.generate_offsets("040895")
+
+    assert_equal "1", offset2[:A]
+    assert_equal "0", offset2[:B]
+    assert_equal "2", offset2[:C]
+    assert_equal "5", offset2[:D]
   end
 
   def test_it_can_generate_shifts
