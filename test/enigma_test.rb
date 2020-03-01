@@ -21,12 +21,18 @@ class EnigmaTest < Minitest::Test
 
   def test_it_can_generate_keys
     number = @enigma.randomize_five_digits
-    key = @enigma.generate_keys(number)
+    key1 = @enigma.generate_keys(number)
 
-    assert (0..99).include?(key[:A].to_i)
-    assert (0..99).include?(key[:B].to_i)
-    assert (0..99).include?(key[:C].to_i)
-    assert (0..99).include?(key[:D].to_i)
+    assert (0..99).include?(key1[:A].to_i)
+    assert (0..99).include?(key1[:B].to_i)
+    assert (0..99).include?(key1[:C].to_i)
+    assert (0..99).include?(key1[:D].to_i)
+
+    key2 = @enigma.generate_keys("02715")
+    assert_equal "02", key2[:A]
+    assert_equal "27", key2[:B]
+    assert_equal "71", key2[:C]
+    assert_equal "15", key2[:D]
   end
 
   def test_it_can_generate_offsets
