@@ -27,4 +27,15 @@ class Enigma
     }
   end
 
+  def generate_shifts(key, date)
+    keys = generate_keys(key)
+    offsets = generate_offsets(date)
+    {
+      A: keys[:A].to_i + offsets[:A].to_i,
+      B: keys[:B].to_i + offsets[:B].to_i,
+      C: keys[:C].to_i + offsets[:C].to_i,
+      D: keys[:D].to_i + offsets[:D].to_i
+    }
+  end
+
 end

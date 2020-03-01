@@ -44,4 +44,14 @@ class EnigmaTest < Minitest::Test
     assert (0..9).include?(offset[:D].to_i)
   end
 
+  def test_it_can_generate_shifts
+    expected = {
+      A: 2 + 1,
+      B: 27 + 0,
+      C: 71 + 2,
+      D: 15 + 5
+    }
+    assert_equal expected, @enigma.generate_shifts("02715", "040895")
+  end
+
 end
