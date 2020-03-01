@@ -19,4 +19,13 @@ class EnigmaTest < Minitest::Test
     assert_equal 5, number.length
   end
 
+  def test_it_can_generate_keys
+    key = @enigma.generate_keys("02715")
+
+    assert (0..99).include?(key[:A].to_i)
+    assert (0..99).include?(key[:B].to_i)
+    assert (0..99).include?(key[:C].to_i)
+    assert (0..99).include?(key[:D].to_i)
+  end
+
 end
