@@ -40,10 +40,7 @@ class Enigma
     }
   end
 
-  def cipher(message, key, date, decrypt = false)
-    shift = generate_shifts(key, date)
-    shift.each { |key, value| shift[key] = -value } if decrypt == true
-
+  def message_writer(message, shift)
     new_message = ""
     message.downcase.each_char.with_index(1) do | character, index |
       original_position = @alphabet.find_index(character)
@@ -60,6 +57,12 @@ class Enigma
       end
     end
     new_message
+  end
+
+  def cipher(message, key, date, decrypt = false )
+    shift = generate_shifts(key, date)
+    shift.each { |key, value| shift[key] = -value } if decrypt
+    message_writer(message, shift)
   end
 
   def encrypt(message, key = randomize_five_digits, date = @current_date)
