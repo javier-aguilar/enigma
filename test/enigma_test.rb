@@ -119,4 +119,13 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.decrypt(encrypted[:encryption], "02715")
   end
 
+  def test_it_can_decrypt_with_uppercase_and_special_characters
+    expected = {
+      decryption: "hello world!!a$",
+      key: "02715",
+      date: "040895"
+    }
+    assert_equal expected, @enigma.decrypt("keder ohulw!!a$", "02715", "040895")
+  end
+
 end
