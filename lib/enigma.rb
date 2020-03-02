@@ -1,7 +1,7 @@
 class Enigma
 
   def initialize()
-    @alphabet = ("a".."z").to_a << " "
+    @character_set = ("a".."z").to_a << " "
     @current_date = DateTime.now.strftime "%d%m%y"
   end
 
@@ -13,8 +13,8 @@ class Enigma
     (date.to_i ** 2).to_s
   end
 
-  def generate_keys(num)
-    { A: num[0..1], B: num[1..2], C: num[2..3], D: num[3..4] }
+  def generate_keys(number)
+    { A: number[0..1], B: number[1..2], C: number[2..3], D: number[3..4] }
   end
 
   def generate_offsets(date)
@@ -34,24 +34,25 @@ class Enigma
   end
 
   def character_rotate(character, shift)
-    original_position = @alphabet.find_index(character)
-    @alphabet.rotate(shift)[original_position]
+    original_position = @character_set.find_index(character)
+    @character_set.rotate(shift)[original_position]
   end
 
   def write_character(character, shift, index)
-    if !@alphabet.include? character
+    if !@character_set.include? character
       return character
     else
-      return character_rotate(character, shift.fetch(:A)) if index % 4 == 1
-      return character_rotate(character, shift.fetch(:B)) if index % 4 == 2
-      return character_rotate(character, shift.fetch(:C)) if index % 4 == 3
-      return character_rotate(character, shift.fetch(:D)) if index % 4 == 0
+      return character_rotate(character, shift[:A]) if index % 4 == 1
+      return character_rotate(character, shift[:B]) if index % 4 == 2
+      return character_rotate(character, shift[:C]) if index % 4 == 3
+      return character_rotate(character, shift[:D]) if index % 4 == 0
     end
   end
 
   def message_writer(message, shift)
     new_message = ""
-    message.downcase.each_char.with_index(1) do | character, index |
+    lowercase_message = message.downcase
+    lowercase_message.each_char.with_index(1) do | character, index |
       new_message << write_character(character, shift, index)
     end
     new_message
@@ -59,7 +60,7 @@ class Enigma
 
   def cipher(message, key, date, decrypt = false )
     shift = generate_shifts(key, date)
-    shift.each { |key, value| shift[key] = -value } if decrypt
+    shift.each { |key, shift_num| shift[key] = -shift_num } if decrypt
     message_writer(message, shift)
   end
 
