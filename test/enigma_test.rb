@@ -6,6 +6,7 @@ class EnigmaTest < Minitest::Test
 
   def setup
     @enigma = Enigma.new()
+    @current_date = DateTime.now.strftime "%d%m%y"
   end
 
   def test_it_exists
@@ -37,8 +38,7 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_generate_offsets
-    current_date = DateTime.now.strftime "%d%m%y"
-    offset1 = @enigma.generate_offsets(current_date)
+    offset1 = @enigma.generate_offsets(@current_date)
 
     assert (0..9).include?(offset1[:A].to_i)
     assert (0..9).include?(offset1[:B].to_i)
@@ -70,6 +70,15 @@ class EnigmaTest < Minitest::Test
       date: "040895"
     }
     assert_equal expected, @enigma.encrypt("hello world", "02715", "040895")
+  end
+
+  def test_it_can_encrypt_with_todays_date
+    expected = {
+      encryption: "lib sdmcvpu",
+      key: "02715",
+      date: @current_date
+    }
+    assert_equal expected, @enigma.encrypt("hello world", "02715")
   end
 
 end
