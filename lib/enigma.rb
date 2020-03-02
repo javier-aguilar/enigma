@@ -64,4 +64,28 @@ class Enigma
     }
   end
 
+  def decrypt(message, key = randomize_five_digits, date = @current_date)
+    shift = generate_shifts(key, date)
+    decrypted_message = ""
+    message.downcase.each_char.with_index(1) do | character, index |
+      original_position = @alphabet.find_index(character)
+      if !@alphabet.include? character
+        decrypted_message << character
+      elsif index % 4 == 1
+        decrypted_message << @alphabet.rotate(-shift[:A])[original_position]
+      elsif index % 4 == 2
+        decrypted_message << @alphabet.rotate(-shift[:B])[original_position]
+      elsif index % 4 == 3
+        decrypted_message << @alphabet.rotate(-shift[:C])[original_position]
+      elsif index % 4 == 0
+        decrypted_message << @alphabet.rotate(-shift[:D])[original_position]
+      end
+    end
+    {
+      decryption: decrypted_message,
+      key: key,
+      date: date
+    }
+  end
+
 end
