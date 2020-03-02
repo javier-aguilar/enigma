@@ -9,24 +9,17 @@ class Enigma
     rand(0..99999).to_s.rjust(5, "0")
   end
 
-  def generate_keys(five_digit_num)
-    {
-      A: five_digit_num[0..1],
-      B: five_digit_num[1..2],
-      C: five_digit_num[2..3],
-      D: five_digit_num[3..4]
-    }
+  def square_date(date)
+    (date.to_i ** 2).to_s
+  end
+
+  def generate_keys(num)
+    { A: num[0..1], B: num[1..2], C: num[2..3], D: num[3..4] }
   end
 
   def generate_offsets(date)
-    squared_date = (date.to_i * date.to_i)
-    offsets = squared_date.to_s.slice(-4, 4)
-    {
-      A: offsets[0],
-      B: offsets[1],
-      C: offsets[2],
-      D: offsets[3]
-    }
+    offsets = square_date(date).slice(-4, 4)
+    { A: offsets[0], B: offsets[1], C: offsets[2], D: offsets[3] }
   end
 
   def generate_shifts(key, date)
@@ -40,21 +33,26 @@ class Enigma
     }
   end
 
+  def character_rotate(character, shift)
+    original_position = @alphabet.find_index(character)
+    @alphabet.rotate(shift)[original_position]
+  end
+
+  def write_character(character, shift, index)
+    if !@alphabet.include? character
+      return character
+    else
+      return character_rotate(character, shift.fetch(:A)) if index % 4 == 1
+      return character_rotate(character, shift.fetch(:B)) if index % 4 == 2
+      return character_rotate(character, shift.fetch(:C)) if index % 4 == 3
+      return character_rotate(character, shift.fetch(:D)) if index % 4 == 0
+    end
+  end
+
   def message_writer(message, shift)
     new_message = ""
     message.downcase.each_char.with_index(1) do | character, index |
-      original_position = @alphabet.find_index(character)
-      if !@alphabet.include? character
-        new_message << character
-      elsif index % 4 == 1
-        new_message << @alphabet.rotate(shift.fetch(:A))[original_position]
-      elsif index % 4 == 2
-        new_message << @alphabet.rotate(shift.fetch(:B))[original_position]
-      elsif index % 4 == 3
-        new_message << @alphabet.rotate(shift.fetch(:C))[original_position]
-      elsif index % 4 == 0
-        new_message << @alphabet.rotate(shift.fetch(:D))[original_position]
-      end
+      new_message << write_character(character, shift, index)
     end
     new_message
   end
