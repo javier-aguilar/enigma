@@ -1,6 +1,7 @@
 class Enigma
 
   def initialize()
+    @alphabet = ("a".."z").to_a << " "
   end
 
   def randomize_five_digits
@@ -35,6 +36,30 @@ class Enigma
       B: keys[:B].to_i + offsets[:B].to_i,
       C: keys[:C].to_i + offsets[:C].to_i,
       D: keys[:D].to_i + offsets[:D].to_i
+    }
+  end
+
+  def encrypt(message, key = randomize_five_digits, date = @current_date)
+    shift = generate_shifts(key, date)
+    encrypted_message = ""
+    message.downcase.each_char.with_index(1) do | character, index |
+      original_position = @alphabet.find_index(character)
+      if !@alphabet.include? character
+        encrypted_message << character
+      elsif index % 4 == 1
+        encrypted_message << @alphabet.rotate(shift[:A])[original_position]
+      elsif index % 4 == 2
+        encrypted_message << @alphabet.rotate(shift[:B])[original_position]
+      elsif index % 4 == 3
+        encrypted_message << @alphabet.rotate(shift[:C])[original_position]
+      elsif index % 4 == 0
+        encrypted_message << @alphabet.rotate(shift[:D])[original_position]
+      end
+    end
+    {
+      encryption: encrypted_message,
+      key: key,
+      date: date
     }
   end
 
