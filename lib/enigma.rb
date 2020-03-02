@@ -67,8 +67,8 @@ class Enigma
     { encryption: encrypted_message, key: key, date: date }
   end
 
-  def decrypt(message, key, date = @current_date)
-    decrypted_message = cipher(message, key, date, true)
+  def decrypt(ciphertext, key, date = @current_date)
+    decrypted_message = cipher(ciphertext, key, date, true)
     { decryption: decrypted_message, key: key, date: date }
   end
 
