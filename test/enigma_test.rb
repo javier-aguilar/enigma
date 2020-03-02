@@ -128,4 +128,12 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.decrypt("keder ohulw!!a$", "02715", "040895")
   end
 
+  def test_it_can_return_encrypted_or_decrypted_message
+    encrypted_message = @enigma.cipher("hello world", "02715", "040895")
+    assert_equal "keder ohulw", encrypted_message
+
+    decrypted_message = @enigma.cipher("keder ohulw", "02715", "040895", true)
+    assert_equal "hello world", decrypted_message
+  end
+
 end

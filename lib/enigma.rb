@@ -40,52 +40,36 @@ class Enigma
     }
   end
 
-  def encrypt(message, key = randomize_five_digits, date = @current_date)
+  def cipher(message, key, date, decrypt = false)
     shift = generate_shifts(key, date)
-    encrypted_message = ""
+    shift.each { |key, value| shift[key] = -value } if decrypt == true
+
+    new_message = ""
     message.downcase.each_char.with_index(1) do | character, index |
       original_position = @alphabet.find_index(character)
       if !@alphabet.include? character
-        encrypted_message << character
+        new_message << character
       elsif index % 4 == 1
-        encrypted_message << @alphabet.rotate(shift[:A])[original_position]
+        new_message << @alphabet.rotate(shift.fetch(:A))[original_position]
       elsif index % 4 == 2
-        encrypted_message << @alphabet.rotate(shift[:B])[original_position]
+        new_message << @alphabet.rotate(shift.fetch(:B))[original_position]
       elsif index % 4 == 3
-        encrypted_message << @alphabet.rotate(shift[:C])[original_position]
+        new_message << @alphabet.rotate(shift.fetch(:C))[original_position]
       elsif index % 4 == 0
-        encrypted_message << @alphabet.rotate(shift[:D])[original_position]
+        new_message << @alphabet.rotate(shift.fetch(:D))[original_position]
       end
     end
-    {
-      encryption: encrypted_message,
-      key: key,
-      date: date
-    }
+    new_message
   end
 
-  def decrypt(message, key = randomize_five_digits, date = @current_date)
-    shift = generate_shifts(key, date)
-    decrypted_message = ""
-    message.downcase.each_char.with_index(1) do | character, index |
-      original_position = @alphabet.find_index(character)
-      if !@alphabet.include? character
-        decrypted_message << character
-      elsif index % 4 == 1
-        decrypted_message << @alphabet.rotate(-shift[:A])[original_position]
-      elsif index % 4 == 2
-        decrypted_message << @alphabet.rotate(-shift[:B])[original_position]
-      elsif index % 4 == 3
-        decrypted_message << @alphabet.rotate(-shift[:C])[original_position]
-      elsif index % 4 == 0
-        decrypted_message << @alphabet.rotate(-shift[:D])[original_position]
-      end
-    end
-    {
-      decryption: decrypted_message,
-      key: key,
-      date: date
-    }
+  def encrypt(message, key = randomize_five_digits, date = @current_date)
+    encrypted_message = cipher(message, key, date)
+    { encryption: encrypted_message, key: key, date: date }
+  end
+
+  def decrypt(message, key, date = @current_date)
+    decrypted_message = cipher(message, key, date, true)
+    { decryption: decrypted_message, key: key, date: date }
   end
 
 end
