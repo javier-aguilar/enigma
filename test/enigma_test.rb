@@ -21,6 +21,11 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.current_date
   end
 
+  def test_it_can_square_date
+    expected = "412902400"
+    assert_equal expected, @enigma.square_date("020320")
+  end
+
   def test_it_can_generate_randomize_five_digits
     number = @enigma.randomize_five_digits
 
