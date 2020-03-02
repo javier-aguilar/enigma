@@ -2,7 +2,11 @@ class Enigma
 
   def initialize()
     @character_set = ("a".."z").to_a << " "
-    @current_date = DateTime.now.strftime "%d%m%y"
+    @current_date = current_date
+  end
+
+  def current_date
+    Date.today.strftime "%d%m%y"
   end
 
   def randomize_five_digits
