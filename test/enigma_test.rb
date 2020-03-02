@@ -72,6 +72,15 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.encrypt("hello world", "02715", "040895")
   end
 
+  def test_it_can_encrypt_with_uppercase_and_special_characters
+    expected = {
+      encryption: "keder ohulw!!a$",
+      key: "02715",
+      date: "040895"
+    }
+    assert_equal expected, @enigma.encrypt("HELLO world!!a$", "02715", "040895")
+  end
+
   def test_it_can_encrypt_with_todays_date
     expected = {
       encryption: "lib sdmcvpu",
