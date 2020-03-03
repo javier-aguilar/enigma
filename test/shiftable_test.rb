@@ -11,6 +11,15 @@ class CrackableTest < Minitest::Test
   def test_it_rotate_character
     expected = "c"
     assert_equal expected, @enigma.character_rotate("a", 2)
+    expected = " "
+    assert_equal expected, @enigma.character_rotate("b", -2)
+  end
+
+  def test_it_can_determine_shift_for_character
+    shift = {A: 1, B: 2, C: 3, D: 4}
+    assert_equal "!", @enigma.shift_character("!", shift, 0)
+    assert_equal "g", @enigma.shift_character("c", shift, 0)
+    assert_equal "d", @enigma.shift_character("c", shift, 1)
   end
 
 end
