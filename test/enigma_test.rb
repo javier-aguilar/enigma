@@ -149,19 +149,30 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_it_can_crack
-    expected = {
+    expected1 = {
       encryption: "vescb cfelkrsnk",
       key: "12345",
       date: "020320"
     }
-    assert_equal expected, @enigma.encrypt("hello world end", "12345", "020320")
-    expected = {
+    assert_equal expected1, @enigma.encrypt("hello world end", "12345", "020320")
+    expected2 = {
       decryption: "hello world end",
       date: "020320",
       key: "12345",
     }
-    assert_equal expected, @enigma.crack("vescb cfelkrsnk", "020320")
+    assert_equal expected2, @enigma.crack("vescb cfelkrsnk", "020320")
+    expected3 = {
+        encryption: "vjqtbeaweqihssi",
+        key: "08304",
+        date: "291018"
+    }
+    assert_equal expected3, @enigma.encrypt("hello world end", "08304", "291018")
+    expected4 = {
+      decryption: "hello world end",
+      date: "291018",
+      key: "08304"
+    }
+    assert_equal expected4, @enigma.crack("vjqtbeaweqihssi", "291018")
   end
-
 
 end
