@@ -1,7 +1,7 @@
 require './test/test_helper'
 require './lib/enigma'
 
-class CrackableTest < Minitest::Test
+class ShiftableTest < Minitest::Test
 
   def setup
     @enigma = Enigma.new()
