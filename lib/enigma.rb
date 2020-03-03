@@ -100,7 +100,7 @@ class Enigma
     4.times.with_index do |index|
       shifts << ((27 - @character_set.find_index(four[index])) + (@character_set.find_index(expected[index])))
     end
-    
+
     sum = []
     total = 0
     offsets.each.with_index do | (key, _), index |
@@ -116,7 +116,7 @@ class Enigma
 
     key = "#{sum[0].to_s}#{sum[1].to_s[-1]}#{sum[2].to_s[-1]}#{sum[3].to_s[-1]}"
     info = decrypt(ciphertext, key, date)
-    { decryption: info[:decryption], date: date, key: key}
+    { decryption: info[:decryption], date: date, key: key }
   end
 
 end
