@@ -26,4 +26,10 @@ class CrackableTest < Minitest::Test
     expected4 = " end"
     assert_equal expected4, @enigma.expected_message_end("weqihssi")
   end
+
+  def test_it_can_crack_shifts
+    expected = [13, 22, 22, 46]
+    assert_equal expected, @enigma.crack_shifts(['s', 's', 'i', 'h'], "end ")
+  end
+
 end
