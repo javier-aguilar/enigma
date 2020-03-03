@@ -22,4 +22,10 @@ class CrackableTest < Minitest::Test
     assert_equal "d", @enigma.shift_character("c", shift, 1)
   end
 
+  def test_it_can_write_message
+    shift = {A: 1, B: 1, C: 1, D: 2}
+    expected = "ifmnpaxqsme"
+    assert_equal expected, @enigma.message_writer("hello world", shift)
+  end
+
 end
