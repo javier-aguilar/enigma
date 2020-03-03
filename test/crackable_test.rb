@@ -46,4 +46,9 @@ class CrackableTest < Minitest::Test
     assert_equal expected, @enigma.combine_keys(["12","23","34","45"])
   end
 
+  def test_it_can_check_matching_keys
+    assert_equal true, @enigma.keys_match?([12], 28, 1)
+    assert_equal false, @enigma.keys_match?([12], 1, 1)
+  end
+
 end
