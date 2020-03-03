@@ -1,10 +1,12 @@
 require 'date'
 require './lib/crackable'
 require './lib/computable'
+require './lib/shiftable'
 
 class Enigma
   include Crackable
   include Computable
+  include Shiftable
 
   def initialize()
     @character_set = ("a".."z").to_a << " "
@@ -27,31 +29,6 @@ class Enigma
       B: keys[:B].to_i + offsets[:B].to_i,
       C: keys[:C].to_i + offsets[:C].to_i,
       D: keys[:D].to_i + offsets[:D].to_i }
-  end
-
-  def character_rotate(character, shift)
-    original_position = @character_set.find_index(character)
-    @character_set.rotate(shift)[original_position]
-  end
-
-  def shift_character(character, shift, index)
-    if !@character_set.include? character
-      return character
-    else
-      return character_rotate(character, shift[:A]) if index % 4 == 1
-      return character_rotate(character, shift[:B]) if index % 4 == 2
-      return character_rotate(character, shift[:C]) if index % 4 == 3
-      return character_rotate(character, shift[:D]) if index % 4 == 0
-    end
-  end
-
-  def message_writer(message, shift)
-    new_message = ""
-    lowercase_message = message.downcase
-    lowercase_message.each_char.with_index(1) do | character, index |
-      new_message << shift_character(character, shift, index)
-    end
-    new_message
   end
 
   def transcode(message, key, date, decrypt = false )

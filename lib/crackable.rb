@@ -33,12 +33,14 @@ module Crackable
     offset.each.with_index do | (key, _), index |
       total = -shift[index] - offset[key].to_i
       total += 27 while total < 0
-      while(index != 0 && keys[index-1].to_s[1] != total.to_s.rjust(2, "0")[0])
-        total += 27
-      end
+      total += 27 while index != 0 && !keys_match?(keys, total, index)
       keys << total.to_s.rjust(2, "0")
     end
     keys
+  end
+
+  def keys_match?(keys, total, index)
+    keys[index-1].to_s[1] == total.to_s.rjust(2, "0")[0]
   end
 
   def combine_keys(keys)
