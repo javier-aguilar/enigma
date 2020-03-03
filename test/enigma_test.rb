@@ -175,4 +175,13 @@ class EnigmaTest < Minitest::Test
     assert_equal expected4, @enigma.crack("vjqtbeaweqihssi", "291018")
   end
 
+  def test_it_can_crack_without_a_date
+    expected = {
+      decryption: "hello world end",
+      date: @current_date,
+      key: "12862"
+    }
+    assert_equal expected, @enigma.crack("vjqtbeaweqihssi")
+  end
+
 end
