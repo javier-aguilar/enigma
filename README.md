@@ -19,7 +19,7 @@ To crack -encrypted_source -destination -date:
 ***
 ## Self Assessment
 
-#### Functionality: 4
+#### Functionality: 3.8
 
 I have implemented an encrypt and decrypt method that work via CLI. I have also implemented a cracking method that works via CLI
 
