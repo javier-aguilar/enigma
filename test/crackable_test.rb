@@ -32,4 +32,13 @@ class CrackableTest < Minitest::Test
     assert_equal expected, @enigma.crack_shifts(['s', 's', 'i', 'h'], "end ")
   end
 
+  def test_it_can_crack_keys
+    offset = {A: 2,
+              B: 4,
+              C: 0,
+              D: 0}
+    expected = ["12", "28", "86", "62"]
+    assert_equal expected, @enigma.crack_keys([13, 22, 22, 46], offset)
+  end
+
 end
